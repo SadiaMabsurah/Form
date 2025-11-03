@@ -57,20 +57,39 @@ $users = $conn->query("SELECT * FROM users ORDER BY id DESC")->fetch_all(MYSQLI_
     </form>
   </div>
 
-<!-- USERS LIST -->
-<div class="form-box active">
-  <h2>Users List</h2>
-  <ul class="box">
-    <?php foreach($users as $user): ?>
-    <li>
-      <p><?= htmlspecialchars($user['name']) ?> (<?= htmlspecialchars($user['role']) ?>) - <?= htmlspecialchars($user['email']) ?></p>
-      <div style="display: flex; gap: 10px;">
-        <button onclick="openEditModal(<?= $user['id'] ?>,'<?= $user['name'] ?>','<?= $user['email'] ?>','<?= $user['role'] ?>')">Edit</button>
-        <button onclick="openDeleteModal(<?= $user['id'] ?>)">Delete</button>
-      </div>
-    </li>
-    <?php endforeach; ?>
-  </ul>
+<!-- USERS TABLE -->
+<div class="user-table-container" style="width: 95%; max-width: 1200px; margin: 20px auto; overflow-x: auto;">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php $count = 1; foreach($users as $user): ?>
+      <tr>
+        <td><?= $count++; ?></td>
+        <td><?= htmlspecialchars($user['name']); ?></td>
+        <td><?= htmlspecialchars($user['email']); ?></td>
+        <td><?= htmlspecialchars(ucfirst($user['role'])); ?></td>
+        <td>
+          <button class="table-btn edit-btn"
+            onclick="openEditModal(<?= $user['id'] ?>,'<?= $user['name'] ?>','<?= $user['email'] ?>','<?= $user['role'] ?>')">
+            Edit
+          </button>
+          <button class="table-btn delete-btn"
+            onclick="openDeleteModal(<?= $user['id'] ?>)">
+            Delete
+          </button>
+        </td>
+      </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
 </div>
 
 
